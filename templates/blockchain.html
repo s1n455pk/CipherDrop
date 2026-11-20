@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Blockchain explorer — CipherDrop{% endblock %}
+{% block content %}
+<section class="page-head wrap">
+  <div class="eyebrow">TRANSPARENCY / LEDGER</div><h1>Blockchain <span class="gradient-text">explorer</span></h1>
+  <p>Inspect transfer events, linked block hashes and ledger integrity.</p>
+</section>
+<section class="wrap explorer-wrap">
+  <div class="ledger-status" id="ledger-status"><span class="status-dot"></span><b>Loading ledger…</b><span id="block-count"></span></div>
+  <div id="chain-list" class="chain-list"><div class="panel loading-card">Loading blockchain records…</div></div>
+  <p class="disclaimer">Educational demonstration: this is a single-server, hash-linked ledger, not a decentralized public blockchain or proof of legal authenticity.</p>
+</section>
+{% endblock %}
+{% block scripts %}<script>
+async function loadChain(){
+ const list=document.getElementById('chain-list');
+ try{
+  const r=await fetch('/api/blockchain'); const data=await r.json();
+  const status=document.getElementById('ledger-status');
+  status.className='ledger-status '+(data.valid?'is-valid':'is-invalid');
+  status.querySelector('b').textContent=data.valid?'Blockchain integrity verified':'Blockchain integrity check failed';
+  document.getElementById('block-count').textContent=data.total_blocks+' blocks';
+  list.innerHTML='';
+  [...data.chain].reverse().forEach(block=>{
+   const card=document.createElement('article'); card.className='block-card';
+   const title=document.createElement('div'); title.className='block-title';
+   const name=document.createElement('b'); name.textContent='Block #'+block.index;
+   const time=document.createElement('span'); time.textContent=new Date(block.timestamp).toLocaleString();
+   title.append(name,time);
+   const event=document.createElement('div'); event.className='event-pill'; event.textContent=(block.data && block.data.event)||'EVENT';
+   const dataBox=document.createElement('pre'); dataBox.textContent=JSON.stringify(block.data,null,2);
+   const prev=document.createElement('div'); prev.className='hash-line'; prev.innerHTML='<span>PREVIOUS HASH</span>';
+   const prevCode=document.createElement('code'); prevCode.textContent=block.previous_hash; prev.append(prevCode);
+   const hash=document.createElement('div'); hash.className='hash-line'; hash.innerHTML='<span>BLOCK HASH</span>';
+   const hashCode=document.createElement('code'); hashCode.textContent=block.hash; hash.append(hashCode);
+   card.append(title,event,dataBox,prev,hash); list.append(card);
+  });
+ }catch(e){list.textContent='Could not load the ledger.';}
+}
+loadChain();
+</script>{% endblock %}

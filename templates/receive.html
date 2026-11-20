@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Receive a file — CipherDrop{% endblock %}
+{% block content %}
+<section class="page-head wrap">
+  <div class="eyebrow">SECURE TRANSFER / 02</div><h1>Receive a <span class="gradient-text">file</span></h1>
+  <p>Enter the Transfer ID and secret passphrase shared by the sender.</p>
+</section>
+<section class="form-layout wrap receive-layout">
+  <div class="panel main-panel">
+    <form id="receive-form">
+      <label class="field-label" for="transfer-id">Transfer ID</label>
+      <input class="text-input" id="transfer-id" autocomplete="off" placeholder="Paste your transfer ID" required>
+      <label class="field-label" for="passphrase">Secret passphrase</label>
+      <input class="text-input" id="passphrase" type="password" autocomplete="off" placeholder="Paste the secret passphrase" required>
+      <button class="btn btn-primary btn-wide" id="receive-button" type="submit">Verify & download <span>→</span></button>
+      <div class="progress-wrap hidden" id="receive-progress"><div class="progress-bar"><span></span></div><p id="receive-status">Checking transfer…</p></div>
+      <div class="download-result hidden" id="download-result"></div>
+      <div class="error-box hidden" id="receive-error"></div>
+    </form>
+  </div>
+  <aside class="side-panel">
+    <div class="side-icon">⌑</div><h3>Before you download</h3>
+    <ul class="plain-list"><li>Get the Transfer ID and passphrase from the sender.</li><li>The passphrase is used locally to decrypt the file.</li><li>The browser checks the original SHA-256 fingerprint.</li><li>A download slot is consumed when the encrypted file is retrieved, even if decryption later fails. For testing, use a multi-download link.</li></ul>
+    <div class="side-foot">Never share your passphrase publicly.</div>
+  </aside>
+</section>
+{% endblock %}

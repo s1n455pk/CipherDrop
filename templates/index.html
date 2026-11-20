@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}CipherDrop — Private file transfer{% endblock %}
+{% block content %}
+<section class="hero wrap">
+  <div class="eyebrow"><span class="pulse"></span> PRIVATE FILE TRANSFER, REIMAGINED</div>
+  <h1>Your files.<br><span class="gradient-text">Your keys. Your control.</span></h1>
+  <p class="hero-copy">Send files with browser-side encryption, a private passphrase and tamper-evident transfer records. No account. No inbox. No fuss.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="/send">↑ &nbsp; Send a file</a>
+    <a class="btn btn-secondary" href="/receive">↓ &nbsp; Receive a file</a>
+  </div>
+  <div class="trust-line"><span>●</span> AES-256-GCM encryption <i></i> SHA-256 integrity <i></i> Blockchain audit trail</div>
+  <div class="hero-art">
+    <div class="art-orbit orbit-a"></div><div class="art-orbit orbit-b"></div>
+    <div class="file-card">
+      <div class="file-icon">▤</div><div class="file-lines"><b>confidential-document.pdf</b><span>Encrypted locally · Never uploaded in plaintext</span></div>
+      <div class="lock-chip">⌑ &nbsp; LOCKED</div>
+    </div>
+    <div class="float-chip chip-left"><span class="chip-dot"></span> End-to-end encrypted</div>
+    <div class="float-chip chip-right">⌁ &nbsp; SHA-256 verified</div>
+  </div>
+</section>
+<section class="wrap feature-grid">
+  <article class="feature"><div class="feature-icon blue">⌑</div><h3>Encrypted in your browser</h3><p>Your file is encrypted before it leaves your device. The server stores ciphertext, not the original file or your passphrase.</p></article>
+  <article class="feature"><div class="feature-icon purple">⌁</div><h3>Verify every byte</h3><p>A SHA-256 fingerprint helps the receiver check that the decrypted file matches the original.</p></article>
+  <article class="feature"><div class="feature-icon green">▦</div><h3>Traceable transfer record</h3><p>Each transfer and download event is added to a hash-linked blockchain-style ledger.</p></article>
+</section>
+<section class="wrap stats-strip" id="stats">
+  <div><strong id="stat-transfers">—</strong><span>Total transfers</span></div><div><strong id="stat-active">—</strong><span>Active transfers</span></div><div><strong id="stat-blocks">—</strong><span>Ledger blocks</span></div><div><strong id="stat-status">Checking</strong><span>Ledger integrity</span></div>
+</section>
+{% endblock %}
+{% block scripts %}<script>
+fetch('/api/stats').then(r=>r.json()).then(s=>{
+ document.getElementById('stat-transfers').textContent=s.total_transfers;
+ document.getElementById('stat-active').textContent=s.active_transfers;
+ document.getElementById('stat-blocks').textContent=s.blocks;
+ document.getElementById('stat-status').textContent=s.blockchain_valid?'Valid':'Check';
+}).catch(()=>{});
+</script>{% endblock %}

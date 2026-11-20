@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Send a file — CipherDrop{% endblock %}
+{% block content %}
+<section class="page-head wrap">
+  <div class="eyebrow">SECURE TRANSFER / 01</div><h1>Send a <span class="gradient-text">file</span></h1>
+  <p>Choose a file and transfer settings. Encryption happens in this browser before upload.</p>
+</section>
+<section class="form-layout wrap">
+  <div class="panel main-panel">
+    <form id="send-form">
+      <label class="field-label">Choose your file</label>
+      <label class="dropzone" id="dropzone" for="file-input">
+        <input id="file-input" type="file" required>
+        <span class="upload-symbol">↑</span><strong id="file-title">Drop your file here</strong>
+        <span id="file-subtitle">or click to browse · Maximum 25 MB</span>
+        <span class="file-picked" id="file-picked"></span>
+      </label>
+      <div class="two-fields">
+        <div><label class="field-label" for="expiry">Link expires after</label><select id="expiry"><option value="1">1 hour</option><option value="6">6 hours</option><option value="24" selected>24 hours</option><option value="72">3 days</option><option value="168">7 days</option></select></div>
+        <div><label class="field-label" for="downloads">Download limit</label><select id="downloads"><option value="1" selected>One-time download</option><option value="3">3 downloads</option><option value="5">5 downloads</option><option value="10">10 downloads</option></select></div>
+      </div>
+      <div class="security-note"><span>⌑</span><div><b>Your secret stays with you</b><p>A random passphrase is generated in your browser. It is never sent to the server. Share it with your recipient through a separate channel.</p></div></div>
+      <button class="btn btn-primary btn-wide" id="send-button" type="submit">Encrypt & create transfer <span>→</span></button>
+      <div class="progress-wrap hidden" id="send-progress"><div class="progress-bar"><span></span></div><p id="send-status">Preparing secure transfer…</p></div>
+      <div class="result-card hidden" id="send-result">
+        <div class="result-success">✓ Transfer created successfully</div>
+        <label class="field-label">Transfer ID</label><div class="copy-row"><code id="result-id"></code><button type="button" class="copy-btn" data-copy="result-id">Copy</button></div>
+        <label class="field-label">Secret passphrase — show only to your recipient</label><div class="copy-row"><code id="result-secret"></code><button type="button" class="copy-btn" data-copy="result-secret">Copy</button></div>
+        <p class="warning-text">Important: CipherDrop cannot recover this passphrase. Send it separately from the Transfer ID.</p>
+        <button type="button" class="btn btn-secondary btn-wide" id="new-transfer">Create another transfer</button>
+      </div>
+      <div class="error-box hidden" id="send-error"></div>
+    </form>
+  </div>
+  <aside class="side-panel">
+    <div class="side-icon">✳</div><h3>How it works</h3>
+    <ol class="steps"><li><b>Encrypt locally</b><span>AES-256-GCM protects the file in your browser.</span></li><li><b>Upload ciphertext</b><span>Only encrypted bytes reach the server.</span></li><li><b>Share credentials</b><span>Send the ID and passphrase to your recipient separately.</span></li></ol>
+    <div class="side-foot">25 MB maximum · No account required</div>
+  </aside>
+</section>
+{% endblock %}

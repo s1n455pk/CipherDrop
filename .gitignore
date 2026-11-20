@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+instance/
+storage/*
+!storage/.gitkeep
+blockchain_data/chain.json
+*.pyc
